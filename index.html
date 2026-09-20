@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskly — Stay Organized</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="logo">Taskly</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-toggle__icon" id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- HERO (left) -->
+    <section class="hero">
+      <div class="hero__badge">✨ Productivity, simplified</div>
+      <h1 class="hero__title">
+        Stay Organized.<br>
+        <span class="hero__title-accent">Get Things Done.</span>
+      </h1>
+      <p class="hero__description">
+        Manage your daily tasks simply and efficiently — all in one place.
+      </p>
+      <button class="btn btn--primary hero__cta" id="getStartedBtn">
+        Get Started
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <!-- Decorative productivity illustration -->
+      <div class="hero__illustration" aria-hidden="true">
+        <div class="illustration__card illustration__card--1">
+          <div class="illustration__check">✓</div>
+          <div class="illustration__lines">
+            <div class="illustration__line"></div>
+            <div class="illustration__line illustration__line--short"></div>
+          </div>
+        </div>
+        <div class="illustration__card illustration__card--2">
+          <div class="illustration__check illustration__check--done">✓</div>
+          <div class="illustration__lines">
+            <div class="illustration__line"></div>
+            <div class="illustration__line illustration__line--short"></div>
+          </div>
+        </div>
+        <div class="illustration__card illustration__card--3">
+          <div class="illustration__circle"></div>
+          <div class="illustration__lines">
+            <div class="illustration__line"></div>
+            <div class="illustration__line illustration__line--short"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TO-DO CARD (right) -->
+    <section class="todo" id="todoSection">
+      <div class="todo__card">
+
+        <!-- Card header -->
+        <div class="todo__header">
+          <h2 class="todo__title">My Tasks</h2>
+          <div class="todo__stats">
+            <div class="stat">
+              <span class="stat__value" id="statTotal">0</span>
+              <span class="stat__label">Total</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value stat__value--pending" id="statPending">0</span>
+              <span class="stat__label">Pending</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value stat__value--done" id="statCompleted">0</span>
+              <span class="stat__label">Done</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input row -->
+        <div class="todo__input-row">
+          <input type="text" id="taskInput" class="todo__input" placeholder="What needs to be done?" autocomplete="off" maxlength="80">
+          <button class="btn btn--primary btn--add" id="addTaskBtn" aria-label="Add task">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Filter + Search row -->
+        <div class="todo__toolbar">
+          <div class="filters" role="tablist">
+            <button class="filter filter--active" data-filter="all">All</button>
+            <button class="filter" data-filter="pending">Pending</button>
+            <button class="filter" data-filter="completed">Done</button>
+          </div>
+          <div class="search">
+            <svg class="search__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" id="searchInput" class="search__input" placeholder="Search..." autocomplete="off" maxlength="40">
+          </div>
+        </div>
+
+        <!-- Task list -->
+        <ul class="task-list" id="taskList"></ul>
+
+        <!-- Empty state -->
+        <div class="empty" id="emptyState">
+          <div class="empty__icon">📋</div>
+          <p class="empty__text">No tasks yet. Add one above!</p>
+        </div>
+
+        <!-- View all / more -->
+        <button class="view-all hidden" id="viewAllBtn">
+          View all tasks <span id="hiddenCount">0</span>
+        </button>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>© 2026 Taskly. All rights reserved.</p>
+  </footer>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== MODAL (view all tasks) ===== -->
+  <div class="modal" id="modal">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__content">
+      <div class="modal__header">
+        <h3 class="modal__title">All Tasks</h3>
+        <button class="modal__close" id="modalClose" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="task-list task-list--modal" id="modalTaskList"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
