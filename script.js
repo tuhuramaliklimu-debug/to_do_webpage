@@ -32,7 +32,7 @@
   /* ----------------------------------------------------------
      STATE
      ---------------------------------------------------------- */
-  const STORAGE_KEY = 'taskly-tasks-v3';
+  const STORAGE_KEY = 'taskly-tasks-v4';
   const THEME_KEY   = 'taskly-theme';
   const VISIBLE_LIMIT = 4;          // max tasks shown on main screen
 
@@ -85,13 +85,8 @@
     } catch (e) {
       /* ignore */
     }
-    // Seed with a few example tasks on first visit
-    tasks = [
-      { id: uid(), title: 'Design landing page',  completed: false },
-      { id: uid(), title: 'Review pull requests', completed: false },
-      { id: uid(), title: 'Update documentation', completed: true  },
-      { id: uid(), title: 'Plan sprint meeting',  completed: false }
-    ];
+    // Start with empty array on first visit
+    tasks = [];
     saveTasks();
   }
 
