@@ -24,50 +24,7 @@
   <!-- ===== MAIN ===== -->
   <main class="main">
 
-    <!-- HERO (left) -->
-    <section class="hero">
-      <div class="hero__badge">✨ Productivity, simplified</div>
-      <h1 class="hero__title">
-        Stay Organized.<br>
-        <span class="hero__title-accent">Get Things Done.</span>
-      </h1>
-      <p class="hero__description">
-        Manage your daily tasks simply and efficiently — all in one place.
-      </p>
-      <button class="btn btn--primary hero__cta" id="getStartedBtn">
-        Get Started
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </button>
-
-      <!-- Decorative productivity illustration -->
-      <div class="hero__illustration" aria-hidden="true">
-        <div class="illustration__card illustration__card--1">
-          <div class="illustration__check">✓</div>
-          <div class="illustration__lines">
-            <div class="illustration__line"></div>
-            <div class="illustration__line illustration__line--short"></div>
-          </div>
-        </div>
-        <div class="illustration__card illustration__card--2">
-          <div class="illustration__check illustration__check--done">✓</div>
-          <div class="illustration__lines">
-            <div class="illustration__line"></div>
-            <div class="illustration__line illustration__line--short"></div>
-          </div>
-        </div>
-        <div class="illustration__card illustration__card--3">
-          <div class="illustration__circle"></div>
-          <div class="illustration__lines">
-            <div class="illustration__line"></div>
-            <div class="illustration__line illustration__line--short"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TO-DO CARD (right) -->
+    <!-- TO-DO CARD (centered) -->
     <section class="todo" id="todoSection">
       <div class="todo__card">
 
@@ -93,11 +50,50 @@
         <!-- Input row -->
         <div class="todo__input-row">
           <input type="text" id="taskInput" class="todo__input" placeholder="What needs to be done?" autocomplete="off" maxlength="80">
+          <button class="btn btn--toggle-options" id="toggleOptionsBtn" aria-label="Toggle task details" title="Task details (Deadline, Priority, Repeat, Note)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+              <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+              <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/>
+              <line x1="17" y1="16" x2="23" y2="16"/>
+            </svg>
+          </button>
           <button class="btn btn--primary btn--add" id="addTaskBtn" aria-label="Add task">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
               <path d="M12 5v14M5 12h14"/>
             </svg>
           </button>
+        </div>
+
+        <!-- Options Panel -->
+        <div class="todo__options hidden" id="todoOptions">
+          <div class="options-grid">
+            <div class="option-field">
+              <label for="deadlineInput" class="option-label">📅 Deadline</label>
+              <input type="datetime-local" id="deadlineInput" class="option-input">
+            </div>
+            <div class="option-field">
+              <div class="option-label-wrapper">
+                <label for="priorityInput" class="option-label">🎯 Priority</label>
+                <span class="priority-val-badge" id="priorityValue">0%</span>
+              </div>
+              <input type="range" id="priorityInput" class="option-range" min="0" max="100" value="0">
+            </div>
+            <div class="option-field">
+              <label for="recurringInput" class="option-label">🔁 Recurring</label>
+              <select id="recurringInput" class="option-select">
+                <option value="none">None</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
+            <div class="option-field option-field--full">
+              <label for="noteInput" class="option-label">📝 Note / Details</label>
+              <input type="text" id="noteInput" class="option-input" placeholder="Add short note or details..." maxlength="200">
+            </div>
+          </div>
         </div>
 
         <!-- Filter + Search row -->
