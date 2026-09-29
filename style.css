@@ -161,20 +161,29 @@ body {
 }
 
 /* ============================================================
-   MAIN & TO-DO CARD (centered)
+   MAIN & LAYOUT (To-Do Card Left, Timer Card Right)
    ============================================================ */
 .main {
   flex: 1;
   min-height: 0;
-  max-width: 680px;
+  max-width: 960px;
   width: 100%;
   margin: 0 auto;
   padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 1.5rem;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
+}
+
+@media (max-width: 860px) {
+  .main {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+    align-items: flex-start;
+  }
 }
 
 .todo {
@@ -198,6 +207,170 @@ body {
   flex-direction: column;
   overflow: hidden;
   transition: background var(--transition), border-color var(--transition);
+}
+
+/* ============================================================
+   FOCUS TIMER SIDE CARD (on the right of the To-Do card)
+   ============================================================ */
+.timer-widget {
+  width: 100%;
+  transition: all var(--transition);
+}
+
+.timer-widget.hidden {
+  display: none;
+}
+
+.timer-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.timer-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timer-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.custom-time-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.custom-time-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.custom-time-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custom-time-input {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: all var(--transition);
+  min-width: 0;
+}
+
+.custom-time-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.custom-time-unit {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.btn--set-time {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+  border-radius: var(--radius-sm);
+}
+
+.timer-presets-row {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: space-between;
+}
+
+.preset-btn {
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.35rem 0.2rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.preset-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.preset-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.timer-display-box {
+  text-align: center;
+  padding: 0.3rem 0;
+}
+
+.timer-time-large {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.timer-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.timer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #8b5cf6);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn--timer-action {
+  flex: 1;
+}
+
+.btn--timer-action.active {
+  background: var(--amber);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
 }
 
 /* Card header */

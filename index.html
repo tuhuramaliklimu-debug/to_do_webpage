@@ -128,6 +128,58 @@
       </div>
     </section>
 
+    <!-- FOCUS TIMER SIDE CARD (right) -->
+    <aside class="timer-widget" id="timerWidget">
+      <div class="timer-card">
+        <div class="timer-card__header">
+          <div class="timer-card__title">
+            <span class="timer-card__icon">⏱️</span>
+            <span>Focus Timer</span>
+          </div>
+        </div>
+
+        <!-- Custom duration chooser input -->
+        <div class="custom-time-picker">
+          <label for="customMinutesInput" class="custom-time-label">Choose Minutes:</label>
+          <div class="custom-time-input-group">
+            <input type="number" id="customMinutesInput" class="custom-time-input" min="1" max="300" value="25" placeholder="25">
+            <span class="custom-time-unit">min</span>
+            <button type="button" class="btn btn--primary btn--set-time" id="setCustomTimeBtn">Set</button>
+          </div>
+        </div>
+
+        <!-- Quick Presets -->
+        <div class="timer-presets-row">
+          <button type="button" class="preset-btn" data-time="300">5m</button>
+          <button type="button" class="preset-btn" data-time="600">10m</button>
+          <button type="button" class="preset-btn active" data-time="1500">25m</button>
+          <button type="button" class="preset-btn" data-time="2700">45m</button>
+          <button type="button" class="preset-btn" data-time="3600">60m</button>
+        </div>
+
+        <!-- Countdown Display -->
+        <div class="timer-display-box">
+          <span class="timer-time-large" id="timerDisplay">25:00</span>
+        </div>
+
+        <!-- Progress fill bar -->
+        <div class="timer-progress-bar">
+          <div class="timer-progress-fill" id="timerProgressFill" style="width: 100%;"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="timer-controls">
+          <button class="btn btn--primary btn--timer-action" id="timerStartBtn" aria-label="Start Timer">
+            <svg id="timerPlayIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span id="timerStartText">Start</span>
+          </button>
+          <button class="btn btn--secondary" id="timerResetBtn" aria-label="Reset Timer" title="Reset">Reset</button>
+        </div>
+      </div>
+    </aside>
+
   </main>
 
   <!-- ===== FOOTER ===== -->

@@ -624,9 +624,157 @@
   })();
 
   /* ----------------------------------------------------------
+     FOCUS TIMER SIDE CARD LOGIC
+     ---------------------------------------------------------- */
+  const timerWidget        = document.getElementById('timerWidget');
+  const customMinutesInput = document.getElementById('customMinutesInput');
+  const setCustomTimeBtn   = document.getElementById('setCustomTimeBtn');
+  const presetButtons      = document.querySelectorAll('.preset-btn');
+
+  const timerDisplay       = document.getElementById('timerDisplay');
+  const timerStartBtn      = document.getElementById('timerStartBtn');
+  const timerStartText     = document.getElementById('timerStartText');
+  const timerPlayIcon      = document.getElementById('timerPlayIcon');
+  const timerResetBtn      = document.getElementById('timerResetBtn');
+  const timerProgressFill  = document.getElementById('timerProgressFill');
+
+  let timerInterval = null;
+  let timerTotalSeconds = 1500;
+  let timerRemainingSeconds = 1500;
+  let timerIsRunning = false;
+
+  function formatTimerTime(sec) {
+    const mins = Math.floor(sec / 60);
+    const secs = sec % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  function updateTimerUI() {
+    if (timerDisplay) timerDisplay.textContent = formatTimerTime(timerRemainingSeconds);
+    const pct = timerTotalSeconds > 0 ? (timerRemainingSeconds / timerTotalSeconds) * 100 : 0;
+    if (timerProgressFill) timerProgressFill.style.width = `${pct}%`;
+
+    if (timerIsRunning) {
+      document.title = `(${formatTimerTime(timerRemainingSeconds)}) Taskly`;
+    } else {
+      document.title = 'Taskly — Stay Organized';
+    }
+  }
+
+  function playChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.45);
+    } catch (e) { /* audio fallback */ }
+  }
+
+  function setCustomTimerSeconds(seconds) {
+    pauseTimer();
+    timerTotalSeconds = seconds;
+    timerRemainingSeconds = seconds;
+
+    presetButtons.forEach(btn => {
+      const s = parseInt(btn.dataset.time, 10);
+      btn.classList.toggle('active', s === seconds);
+    });
+
+    updateTimerUI();
+  }
+
+  function startTimer() {
+    if (timerIsRunning) return;
+    timerIsRunning = true;
+    if (timerStartText) timerStartText.textContent = 'Pause';
+    if (timerPlayIcon) timerPlayIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    if (timerStartBtn) timerStartBtn.classList.add('active');
+
+    timerInterval = setInterval(() => {
+      if (timerRemainingSeconds > 0) {
+        timerRemainingSeconds--;
+        updateTimerUI();
+      } else {
+        pauseTimer();
+        playChime();
+        showToast('🎉 Timer completed!');
+      }
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    timerIsRunning = false;
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+    if (timerStartText) timerStartText.textContent = 'Start';
+    if (timerPlayIcon) timerPlayIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+    if (timerStartBtn) timerStartBtn.classList.remove('active');
+    updateTimerUI();
+  }
+
+  function resetTimer() {
+    pauseTimer();
+    timerRemainingSeconds = timerTotalSeconds;
+    updateTimerUI();
+  }
+
+  function applyCustomInputMinutes() {
+    if (!customMinutesInput) return;
+    const mins = parseInt(customMinutesInput.value, 10);
+    if (isNaN(mins) || mins <= 0) {
+      showToast('Please enter valid minutes (1-300)');
+      return;
+    }
+    setCustomTimerSeconds(mins * 60);
+    showToast(`Timer set to ${mins} min${mins === 1 ? '' : 's'}`);
+  }
+
+  if (setCustomTimeBtn) {
+    setCustomTimeBtn.addEventListener('click', applyCustomInputMinutes);
+  }
+  if (customMinutesInput) {
+    customMinutesInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applyCustomInputMinutes();
+      }
+    });
+  }
+
+  presetButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const seconds = parseInt(btn.dataset.time, 10) || 1500;
+      if (customMinutesInput) customMinutesInput.value = Math.floor(seconds / 60);
+      setCustomTimerSeconds(seconds);
+    });
+  });
+
+  if (timerStartBtn) {
+    timerStartBtn.addEventListener('click', () => {
+      if (timerIsRunning) pauseTimer();
+      else startTimer();
+    });
+  }
+
+  if (timerResetBtn) {
+    timerResetBtn.addEventListener('click', resetTimer);
+  }
+
+  /* ----------------------------------------------------------
      INIT
      ---------------------------------------------------------- */
   loadTasks();
   render();
+  updateTimerUI();
 
 })();
