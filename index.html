@@ -9,49 +9,51 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark">
 
   <!-- ===== HEADER ===== -->
   <header class="header">
     <div class="header__inner">
       <a href="#" class="logo">Taskly</a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <span class="theme-toggle__icon" id="themeIcon">🌙</span>
+        <span class="theme-toggle__icon" id="themeIcon">☀️</span>
       </button>
     </div>
   </header>
 
-  <!-- ===== MAIN ===== -->
-  <main class="main">
+  <!-- ===== MAIN DASHBOARD ===== -->
+  <main class="dashboard">
 
-    <!-- TO-DO CARD (centered) -->
-    <section class="todo" id="todoSection">
-      <div class="todo__card">
+    <!-- TOP ROW: STATS CARDS -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card__val" id="statTotal">0</div>
+        <div class="stat-card__label">Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__val stat-card__val--pending" id="statPending">0</div>
+        <div class="stat-card__label">Pending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__val stat-card__val--done" id="statCompleted">0</div>
+        <div class="stat-card__label">Done</div>
+      </div>
+    </section>
 
-        <!-- Card header -->
-        <div class="todo__header">
-          <h2 class="todo__title">My Tasks</h2>
-          <div class="todo__stats">
-            <div class="stat">
-              <span class="stat__value" id="statTotal">0</span>
-              <span class="stat__label">Total</span>
-            </div>
-            <div class="stat">
-              <span class="stat__value stat__value--pending" id="statPending">0</span>
-              <span class="stat__label">Pending</span>
-            </div>
-            <div class="stat">
-              <span class="stat__value stat__value--done" id="statCompleted">0</span>
-              <span class="stat__label">Done</span>
-            </div>
-          </div>
+    <!-- CONTENT GRID -->
+    <div class="dashboard__grid">
+
+      <!-- LEFT CARD: MY TASKS -->
+      <section class="tasks-card">
+        <div class="tasks-card__header">
+          <h2 class="tasks-card__title">My Tasks</h2>
         </div>
 
-        <!-- Input row -->
-        <div class="todo__input-row">
-          <input type="text" id="taskInput" class="todo__input" placeholder="What needs to be done?" autocomplete="off" maxlength="80">
-          <button class="btn btn--toggle-options" id="toggleOptionsBtn" aria-label="Toggle task details" title="Task details (Deadline, Priority, Repeat, Note)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Task Input Box -->
+        <div class="task-input-box">
+          <input type="text" id="taskInput" class="task-input" placeholder="Add a task..." autocomplete="off" maxlength="80">
+          <button class="btn-toggle-options" id="toggleOptionsBtn" aria-label="Toggle task options" title="Task details (Deadline, Priority, Repeat, Note)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
               <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
               <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
@@ -59,29 +61,27 @@
               <line x1="17" y1="16" x2="23" y2="16"/>
             </svg>
           </button>
-          <button class="btn btn--primary btn--add" id="addTaskBtn" aria-label="Add task">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
+          <button class="btn-add-task" id="addTaskBtn">Add task</button>
         </div>
 
-        <!-- Options Panel -->
-        <div class="todo__options hidden" id="todoOptions">
+        <!-- Options Drawer -->
+        <div class="task-options hidden" id="todoOptions">
           <div class="options-grid">
             <div class="option-field">
               <label for="deadlineInput" class="option-label">📅 Deadline</label>
               <input type="datetime-local" id="deadlineInput" class="option-input">
             </div>
             <div class="option-field">
-              <div class="option-label-wrapper">
-                <label for="priorityInput" class="option-label">🎯 Priority</label>
-                <span class="priority-val-badge" id="priorityValue">0%</span>
-              </div>
-              <input type="range" id="priorityInput" class="option-range" min="0" max="100" value="0">
+              <label for="priorityInput" class="option-label">⚡ Priority</label>
+              <select id="priorityInput" class="option-select">
+                <option value="none" selected>⚪ None</option>
+                <option value="low">🟢 Low</option>
+                <option value="medium">🟡 Medium</option>
+                <option value="high">🔴 High</option>
+              </select>
             </div>
             <div class="option-field">
-              <label for="recurringInput" class="option-label">🔁 Recurring</label>
+              <label for="recurringInput" class="option-label">🔁 Repeat</label>
               <select id="recurringInput" class="option-select">
                 <option value="none">None</option>
                 <option value="daily">Daily</option>
@@ -91,13 +91,13 @@
             </div>
             <div class="option-field option-field--full">
               <label for="noteInput" class="option-label">📝 Note / Details</label>
-              <input type="text" id="noteInput" class="option-input" placeholder="Add short note or details..." maxlength="200">
+              <input type="text" id="noteInput" class="option-input" placeholder="Add short note..." maxlength="200">
             </div>
           </div>
         </div>
 
         <!-- Filter + Search row -->
-        <div class="todo__toolbar">
+        <div class="tasks-toolbar">
           <div class="filters" role="tablist">
             <button class="filter filter--active" data-filter="all">All</button>
             <button class="filter" data-filter="pending">Pending</button>
@@ -111,81 +111,81 @@
           </div>
         </div>
 
-        <!-- Task list -->
-        <ul class="task-list" id="taskList"></ul>
-
-        <!-- Empty state -->
-        <div class="empty" id="emptyState">
-          <div class="empty__icon">📋</div>
-          <p class="empty__text">No tasks yet. Add one above!</p>
+        <!-- Task Table Header -->
+        <div class="task-table-header">
+          <span class="th-col th-task">TASK</span>
+          <span class="th-col th-priority">PRIORITY</span>
+          <span class="th-col th-due">DUE</span>
+          <span class="th-col th-repeat">REPEAT</span>
+          <span class="th-col th-actions"></span>
         </div>
 
-        <!-- View all / more -->
+        <!-- Container for task groups -->
+        <div class="task-table-body" id="taskTableBody">
+          <!-- Pending Section -->
+          <div class="task-section" id="pendingSection">
+            <div class="section-title">Pending (<span id="pendingSectionCount">0</span>)</div>
+            <ul class="task-list" id="pendingTaskList"></ul>
+          </div>
+          <!-- Completed Section -->
+          <div class="task-section" id="completedSection">
+            <div class="section-title">Completed (<span id="completedSectionCount">0</span>)</div>
+            <ul class="task-list" id="completedTaskList"></ul>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty hidden" id="emptyState">
+          <div class="empty__icon">📋</div>
+          <p class="empty__text">No tasks found</p>
+        </div>
+
+        <!-- View all button if list exceeds -->
         <button class="view-all hidden" id="viewAllBtn">
           View all tasks <span id="hiddenCount">0</span>
         </button>
 
-      </div>
-    </section>
+      </section>
 
-    <!-- FOCUS TIMER SIDE CARD (right) -->
-    <aside class="timer-widget" id="timerWidget">
-      <div class="timer-card">
-        <div class="timer-card__header">
-          <div class="timer-card__title">
-            <span class="timer-card__icon">⏱️</span>
-            <span>Focus Timer</span>
-          </div>
+      <!-- RIGHT CARD: FOCUS TIMER -->
+      <aside class="timer-card" id="timerWidget">
+        <h3 class="timer-card__title">Focus Timer</h3>
+
+        <!-- Presets 3x2 Grid -->
+        <div class="timer-presets-grid">
+          <button type="button" class="preset-btn" data-time="300">5 min</button>
+          <button type="button" class="preset-btn" data-time="600">10 min</button>
+          <button type="button" class="preset-btn active" data-time="1500">25 min</button>
+          <button type="button" class="preset-btn" data-time="2700">45 min</button>
+          <button type="button" class="preset-btn" data-time="3600">60 min</button>
+          <button type="button" class="preset-btn" id="customPresetToggle">Custom</button>
         </div>
 
-        <!-- Custom duration chooser input -->
-        <div class="custom-time-picker">
-          <label for="customMinutesInput" class="custom-time-label">Choose Minutes:</label>
+        <!-- Custom time chooser box (hidden by default) -->
+        <div class="custom-time-picker hidden" id="customTimePicker">
           <div class="custom-time-input-group">
-            <input type="number" id="customMinutesInput" class="custom-time-input" min="1" max="300" value="25" placeholder="25">
+            <input type="number" id="customMinutesInput" class="custom-time-input" min="1" max="300" value="25" placeholder="Min">
             <span class="custom-time-unit">min</span>
-            <button type="button" class="btn btn--primary btn--set-time" id="setCustomTimeBtn">Set</button>
+            <button type="button" class="btn-set-time" id="setCustomTimeBtn">Set</button>
           </div>
         </div>
 
-        <!-- Quick Presets -->
-        <div class="timer-presets-row">
-          <button type="button" class="preset-btn" data-time="300">5m</button>
-          <button type="button" class="preset-btn" data-time="600">10m</button>
-          <button type="button" class="preset-btn active" data-time="1500">25m</button>
-          <button type="button" class="preset-btn" data-time="2700">45m</button>
-          <button type="button" class="preset-btn" data-time="3600">60m</button>
-        </div>
-
-        <!-- Countdown Display -->
+        <!-- Digital Timer Display -->
         <div class="timer-display-box">
           <span class="timer-time-large" id="timerDisplay">25:00</span>
         </div>
 
-        <!-- Progress fill bar -->
-        <div class="timer-progress-bar">
-          <div class="timer-progress-fill" id="timerProgressFill" style="width: 100%;"></div>
-        </div>
-
         <!-- Controls -->
         <div class="timer-controls">
-          <button class="btn btn--primary btn--timer-action" id="timerStartBtn" aria-label="Start Timer">
-            <svg id="timerPlayIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
+          <button class="btn-timer-start" id="timerStartBtn" aria-label="Start Timer">
             <span id="timerStartText">Start</span>
           </button>
-          <button class="btn btn--secondary" id="timerResetBtn" aria-label="Reset Timer" title="Reset">Reset</button>
+          <button class="btn-timer-reset" id="timerResetBtn" aria-label="Reset Timer">Reset</button>
         </div>
-      </div>
-    </aside>
+      </aside>
 
+    </div>
   </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <p>© 2026 Taskly. All rights reserved.</p>
-  </footer>
 
   <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"></div>
@@ -196,11 +196,7 @@
     <div class="modal__content">
       <div class="modal__header">
         <h3 class="modal__title">All Tasks</h3>
-        <button class="modal__close" id="modalClose" aria-label="Close">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-        </button>
+        <button class="modal__close" id="modalClose" aria-label="Close">✕</button>
       </div>
       <ul class="task-list task-list--modal" id="modalTaskList"></ul>
     </div>
