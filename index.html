@@ -3,204 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taskly — Stay Organized</title>
+  <title>Taskly 🌸 — Stay Organized</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark">
 
-  <!-- ===== HEADER ===== -->
-  <header class="header">
-    <div class="header__inner">
-      <a href="#" class="logo">Taskly</a>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <span class="theme-toggle__icon" id="themeIcon">☀️</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- ===== MAIN DASHBOARD ===== -->
-  <main class="dashboard">
-
-    <!-- TOP ROW: STATS CARDS -->
-    <section class="stats-row">
-      <div class="stat-card">
-        <div class="stat-card__val" id="statTotal">0</div>
-        <div class="stat-card__label">Total</div>
+  <div class="app-container">
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+        <div class="logo">
+          <span>Taskly</span>
+          <span class="logo-flower">🌸</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card__val stat-card__val--pending" id="statPending">0</div>
-        <div class="stat-card__label">Pending</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__val stat-card__val--done" id="statCompleted">0</div>
-        <div class="stat-card__label">Done</div>
-      </div>
-    </section>
 
-    <!-- CONTENT GRID -->
-    <div class="dashboard__grid">
-
-      <!-- LEFT CARD: MY TASKS -->
-      <section class="tasks-card">
-        <div class="tasks-card__header">
-          <h2 class="tasks-card__title">My Tasks</h2>
-        </div>
-
-        <!-- Task Input Box -->
-        <div class="task-input-box">
-          <input type="text" id="taskInput" class="task-input" placeholder="Add a task..." autocomplete="off" maxlength="80">
-          <button class="btn-toggle-options" id="toggleOptionsBtn" aria-label="Toggle task options" title="Task details (Deadline, Priority, Repeat, Note)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
-              <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
-              <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/>
-              <line x1="17" y1="16" x2="23" y2="16"/>
-            </svg>
-          </button>
-          <button class="btn-add-task" id="addTaskBtn">Add task</button>
-        </div>
-
-        <!-- Options Drawer -->
-        <div class="task-options hidden" id="todoOptions">
-          <div class="options-grid">
-            <div class="option-field">
-              <label for="deadlineInput" class="option-label">📅 Deadline</label>
-              <input type="datetime-local" id="deadlineInput" class="option-input">
-            </div>
-            <div class="option-field">
-              <label for="priorityInput" class="option-label">⚡ Priority</label>
-              <select id="priorityInput" class="option-select">
-                <option value="none" selected>⚪ None</option>
-                <option value="low">🟢 Low</option>
-                <option value="medium">🟡 Medium</option>
-                <option value="high">🔴 High</option>
-              </select>
-            </div>
-            <div class="option-field">
-              <label for="recurringInput" class="option-label">🔁 Repeat</label>
-              <select id="recurringInput" class="option-select">
-                <option value="none">None</option>
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-              </select>
-            </div>
-            <div class="option-field option-field--full">
-              <label for="noteInput" class="option-label">📝 Note / Details</label>
-              <input type="text" id="noteInput" class="option-input" placeholder="Add short note..." maxlength="200">
-            </div>
-          </div>
-        </div>
-
-        <!-- Filter + Search row -->
-        <div class="tasks-toolbar">
-          <div class="filters" role="tablist">
-            <button class="filter filter--active" data-filter="all">All</button>
-            <button class="filter" data-filter="pending">Pending</button>
-            <button class="filter" data-filter="completed">Done</button>
-          </div>
-          <div class="search">
-            <svg class="search__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-            </svg>
-            <input type="text" id="searchInput" class="search__input" placeholder="Search..." autocomplete="off" maxlength="40">
-          </div>
-        </div>
-
-        <!-- Task Table Header -->
-        <div class="task-table-header">
-          <span class="th-col th-task">TASK</span>
-          <span class="th-col th-priority">PRIORITY</span>
-          <span class="th-col th-due">DUE</span>
-          <span class="th-col th-repeat">REPEAT</span>
-          <span class="th-col th-actions"></span>
-        </div>
-
-        <!-- Container for task groups -->
-        <div class="task-table-body" id="taskTableBody">
-          <!-- Pending Section -->
-          <div class="task-section" id="pendingSection">
-            <div class="section-title">Pending (<span id="pendingSectionCount">0</span>)</div>
-            <ul class="task-list" id="pendingTaskList"></ul>
-          </div>
-          <!-- Completed Section -->
-          <div class="task-section" id="completedSection">
-            <div class="section-title">Completed (<span id="completedSectionCount">0</span>)</div>
-            <ul class="task-list" id="completedTaskList"></ul>
-          </div>
-        </div>
-
-        <!-- Empty state -->
-        <div class="empty hidden" id="emptyState">
-          <div class="empty__icon">📋</div>
-          <p class="empty__text">No tasks found</p>
-        </div>
-
-        <!-- View all button if list exceeds -->
-        <button class="view-all hidden" id="viewAllBtn">
-          View all tasks <span id="hiddenCount">0</span>
+      <nav class="sidebar-menu">
+        <button class="nav-btn active" data-category="all">
+          <span class="nav-icon">📋</span>
+          <span class="nav-text">All tasks</span>
+          <span class="badge" id="badgeAll">0</span>
         </button>
+        <button class="nav-btn" data-category="today">
+          <span class="nav-icon">☀️</span>
+          <span class="nav-text">Due today</span>
+          <span class="badge" id="badgeToday">0</span>
+        </button>
+        <button class="nav-btn" data-category="overdue">
+          <span class="nav-icon">⏰</span>
+          <span class="nav-text">Overdue</span>
+          <span class="badge" id="badgeOverdue">0</span>
+        </button>
+        <button class="nav-btn" data-category="high">
+          <span class="nav-icon">🔥</span>
+          <span class="nav-text">High priority</span>
+          <span class="badge" id="badgeHigh">0</span>
+        </button>
+        <button class="nav-btn" data-category="recurring">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-text">Recurring</span>
+          <span class="badge" id="badgeRecurring">0</span>
+        </button>
+      </nav>
 
-      </section>
-
-      <!-- RIGHT CARD: FOCUS TIMER -->
-      <aside class="timer-card" id="timerWidget">
-        <h3 class="timer-card__title">Focus Timer</h3>
-
-        <!-- Presets 3x2 Grid -->
-        <div class="timer-presets-grid">
-          <button type="button" class="preset-btn" data-time="300">5 min</button>
-          <button type="button" class="preset-btn" data-time="600">10 min</button>
-          <button type="button" class="preset-btn active" data-time="1500">25 min</button>
-          <button type="button" class="preset-btn" data-time="2700">45 min</button>
-          <button type="button" class="preset-btn" data-time="3600">60 min</button>
-          <button type="button" class="preset-btn" id="customPresetToggle">Custom</button>
-        </div>
-
-        <!-- Custom time chooser box (hidden by default) -->
-        <div class="custom-time-picker hidden" id="customTimePicker">
-          <div class="custom-time-input-group">
-            <input type="number" id="customMinutesInput" class="custom-time-input" min="1" max="300" value="25" placeholder="Min">
-            <span class="custom-time-unit">min</span>
-            <button type="button" class="btn-set-time" id="setCustomTimeBtn">Set</button>
-          </div>
-        </div>
-
-        <!-- Digital Timer Display -->
-        <div class="timer-display-box">
-          <span class="timer-time-large" id="timerDisplay">25:00</span>
-        </div>
-
-        <!-- Controls -->
-        <div class="timer-controls">
-          <button class="btn-timer-start" id="timerStartBtn" aria-label="Start Timer">
-            <span id="timerStartText">Start</span>
-          </button>
-          <button class="btn-timer-reset" id="timerResetBtn" aria-label="Reset Timer">Reset</button>
-        </div>
-      </aside>
-
-    </div>
-  </main>
-
-  <!-- ===== TOAST ===== -->
-  <div class="toast" id="toast"></div>
-
-  <!-- ===== MODAL (view all tasks) ===== -->
-  <div class="modal" id="modal">
-    <div class="modal__backdrop" id="modalBackdrop"></div>
-    <div class="modal__content">
-      <div class="modal__header">
-        <h3 class="modal__title">All Tasks</h3>
-        <button class="modal__close" id="modalClose" aria-label="Close">✕</button>
+      <div class="sidebar-footer">
+        Pick a list to filter your tasks.
       </div>
-      <ul class="task-list task-list--modal" id="modalTaskList"></ul>
-    </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-wrapper">
+      <!-- HEADER -->
+      <header class="header-bar">
+        <h1 class="greeting-title" id="greetingText">Good evening 🌸</h1>
+        <button class="theme-btn" id="themeToggleBtn">
+          <span id="themeIcon">🌙</span>
+          <span id="themeText">Dark</span>
+        </button>
+      </header>
+
+      <!-- DASHBOARD GRID -->
+      <div class="dashboard-grid">
+
+        <!-- LEFT COLUMN: CLOCK & TASKS -->
+        <div class="dash-col main-col">
+
+          <!-- DIGITAL CLOCK CARD -->
+          <div class="glass-card clock-card">
+            <div class="clock-time" id="clockTime">19:19</div>
+            <div class="clock-label">Time</div>
+          </div>
+
+          <!-- ALL TASKS CARD -->
+          <div class="glass-card tasks-card">
+            <h2 class="card-title" id="activeCategoryTitle">All tasks</h2>
+
+            <!-- STATS COUNTERS -->
+            <div class="stats-row">
+              <div class="stat-box">
+                <span class="stat-value" id="statTotal">0</span>
+                <span class="stat-label">Total</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-value" id="statPending">0</span>
+                <span class="stat-label">Pending</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-value" id="statDone">0</span>
+                <span class="stat-label">Done</span>
+              </div>
+            </div>
+
+            <!-- TASK INPUT -->
+            <div class="task-input-container">
+              <input type="text" id="taskInput" class="task-input" placeholder="Add a task..." autocomplete="off">
+              <button type="button" class="btn-icon" id="toggleOptionsBtn" title="Task options">⚙️</button>
+              <button type="button" class="btn-add" id="addTaskBtn">+</button>
+            </div>
+
+            <!-- OPTIONS FORM DRAWER -->
+            <div class="options-drawer hidden" id="optionsDrawer">
+              <div class="options-grid">
+                <div class="form-group">
+                  <label for="prioritySelect">⚡ Priority</label>
+                  <select id="prioritySelect">
+                    <option value="none">⚪ None (0%)</option>
+                    <option value="low">🟢 Low (30%)</option>
+                    <option value="medium">🟡 Medium (60%)</option>
+                    <option value="high" selected>🔴 High (80%)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="deadlineInput">📅 Deadline</label>
+                  <input type="datetime-local" id="deadlineInput">
+                </div>
+                <div class="form-group">
+                  <label for="recurringSelect">🔄 Repeat</label>
+                  <select id="recurringSelect">
+                    <option value="none">None</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+                <div class="form-group full-width">
+                  <label for="noteInput">📝 Note / Details</label>
+                  <input type="text" id="noteInput" placeholder="Add a subtask or note..." maxlength="120">
+                </div>
+              </div>
+            </div>
+
+            <!-- FILTER TABS -->
+            <div class="filter-tabs">
+              <button class="tab-btn active" data-filter="all">All</button>
+              <button class="tab-btn" data-filter="pending">Pending</button>
+              <button class="tab-btn" data-filter="done">Done</button>
+            </div>
+
+            <!-- TASK LIST -->
+            <ul class="task-list" id="taskList"></ul>
+
+            <!-- EMPTY STATE -->
+            <div class="empty-state hidden" id="emptyState">
+              <span class="empty-emoji">🌸</span>
+              <p>No tasks found in this section</p>
+            </div>
+
+            <!-- PROGRESS FOOTER -->
+            <div class="progress-container">
+              <div class="progress-text" id="progressText">0% completed ✨</div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: CALENDAR & FOCUS TIMER -->
+        <div class="dash-col side-col">
+
+          <!-- CALENDAR WIDGET -->
+          <div class="glass-card calendar-card">
+            <div class="cal-header">
+              <button class="cal-nav" id="calPrevBtn">‹</button>
+              <span class="cal-title" id="calTitle">October 2026</span>
+              <button class="cal-nav" id="calNextBtn">›</button>
+            </div>
+            <div class="cal-grid-week">
+              <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+            </div>
+            <div class="cal-grid-days" id="calDays"></div>
+          </div>
+
+          <!-- FOCUS TIMER WIDGET -->
+          <div class="glass-card timer-card">
+            <h3 class="widget-heading">Focus Timer</h3>
+
+            <div class="timer-presets">
+              <button class="preset-btn" data-sec="300">5 min</button>
+              <button class="preset-btn" data-sec="600">10 min</button>
+              <button class="preset-btn active" data-sec="1500">25 min</button>
+              <button class="preset-btn" data-sec="2700">45 min</button>
+              <button class="preset-btn" data-sec="3600">60 min</button>
+            </div>
+
+            <div class="timer-display" id="timerDisplay">25:00</div>
+
+            <div class="timer-controls">
+              <button class="btn-timer-start" id="timerStartBtn">Start</button>
+              <button class="btn-timer-reset" id="timerResetBtn">Reset</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
   </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast"></div>
 
   <script src="script.js"></script>
 </body>
